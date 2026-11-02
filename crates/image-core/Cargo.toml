@@ -1,0 +1,28 @@
+[package]
+name = "gpui-image-core"
+version = "0.1.0"
+edition = "2024"
+license = "Apache-2.0"
+description = "Image decoding, encoding and processing primitives (no GPUI dependency)"
+repository = "https://github.com/kkkqkx123/gpui-image"
+keywords = ["image", "processing", "resize", "thumbnail"]
+categories = ["multimedia"]
+readme = "../../README.md"
+publish = true
+
+[features]
+default = ["png", "jpeg", "gif", "webp", "bmp"]
+png = ["image/png"]
+jpeg = ["image/jpeg"]
+gif = ["image/gif"]
+webp = ["image/webp"]
+bmp = ["image/bmp"]
+tiff = ["image/tiff"]
+avif = ["image/avif"]
+all-formats = ["png", "jpeg", "gif", "webp", "bmp", "tiff", "avif"]
+
+[dependencies]
+image = { version = "0.25", default-features = false }
+
+[lints]
+workspace = true

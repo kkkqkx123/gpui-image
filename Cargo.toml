@@ -1,0 +1,49 @@
+[package]
+name = "gpui-image"
+version = "0.1.0"
+edition = "2024"
+license = "Apache-2.0"
+description = "Image decoding, processing and display components for GPUI applications"
+repository = "https://github.com/kkkqkx123/gpui-image"
+keywords = ["gpui", "image", "processing", "component", "desktop"]
+categories = ["gui", "multimedia"]
+readme = "README.md"
+publish = true
+
+# This crate is an independent repository, not a gpui-kit workspace member.
+# It is mounted at `crates/gpui-image` via `.gitmodules`, following the same
+# pattern as `crates/tray` and `crates/autostart`: the nested `[workspace]`
+# below keeps Cargo from including it in the host workspace, so the host's
+# root `Cargo.toml` / `Cargo.lock` stay byte-identical with upstream.
+[workspace]
+members = ["crates/*", "examples/*"]
+
+[features]
+default = ["gpui-kit", "component"]
+# Image display through GPUI. Select exactly one flavor; `image-gpui` rejects
+# any other combination with a `compile_error!`.
+gpui-kit = ["gpui-image-gpui/gpui-kit", "gpui-image-component?/gpui-kit"]
+gpui-fast = ["gpui-image-gpui/gpui-fast", "gpui-image-component?/gpui-fast"]
+# The generic `Image` / `ImageFallback` display components.
+component = ["dep:gpui-image-component"]
+
+[dependencies]
+gpui-image-core = { path = "crates/image-core", version = "0.1" }
+gpui-image-gpui = { path = "crates/image-gpui", version = "0.1", default-features = false }
+
+[dependencies.gpui-image-component]
+path = "crates/image-component"
+version = "0.1"
+optional = true
+default-features = false
+
+[lints]
+workspace = true
+
+[workspace.lints.clippy]
+dbg_macro = "deny"
+todo = "deny"
+
+[workspace.lints.rust]
+missing_docs = "warn"
+unsafe_op_in_unsafe_fn = "deny"

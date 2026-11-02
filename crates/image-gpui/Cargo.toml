@@ -1,0 +1,31 @@
+[package]
+name = "gpui-image-gpui"
+version = "0.1.0"
+edition = "2024"
+license = "Apache-2.0"
+description = "GPUI rendering bridge for gpui-image: ImageSource construction and caching"
+repository = "https://github.com/kkkqkx123/gpui-image"
+keywords = ["gpui", "image", "component", "desktop"]
+categories = ["gui", "multimedia"]
+readme = "../../README.md"
+publish = true
+
+[features]
+default = ["gpui-kit"]
+# Select exactly one GPUI flavor; `lib.rs` rejects any other combination.
+gpui-kit = ["dep:gpui-kit-backend"]
+gpui-fast = ["dep:gpui-fast-backend"]
+
+[dependencies]
+gpui-image-core = { path = "../image-core", version = "0.1" }
+# Every flavor publishes the same `gpui` API under a different package name.
+# The selected one must be the GPUI the application itself builds against,
+# because the bridge hands GPUI types (`ImageSource`, `ObjectFit`) to it.
+#
+# The pins track the latest published GPUI Kit release (see the design doc);
+# `script/check-gpui-kit-pin.py` fails CI when they drift.
+gpui-kit-backend = { package = "gpui-pre", version = "=0.3.9", default-features = false, optional = true }
+gpui-fast-backend = { package = "gpui-fast", version = "0.1.10", default-features = false, optional = true }
+
+[lints]
+workspace = true
