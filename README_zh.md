@@ -8,11 +8,13 @@
 
 ## 分层
 
-| Crate | 内容 | GPUI 依赖 |
-| ----- | ---- | --------- |
+两个包：纯逻辑的 `gpui-image-core`，加上直接内置两块 GPUI 模块的本门面。
+
+| 路径 | 内容 | GPUI 依赖 |
+| ---- | ---- | --------- |
 | `gpui-image-core` | 解码 / 编码 + 处理原语（纯逻辑） | 无 |
-| `gpui-image-gpui` | `ImageSource` 构造（`still_image`）、`EncodedImage` 转换、`ImageCache` | 二选一 flavor |
-| `gpui-image-component` | 通用 `Image` / `ImageFallback` 组件（`Sizable` / `Styled`） | 经由 `gpui-component` |
+| `gpui_image::bridge` | `ImageSource` 构造（`still_image`）、`EncodedImage` 转换、`ImageCache` | 二选一 flavor |
+| `gpui_image::component` | 通用 `Image` / `ImageFallback` 组件（`Sizable` / `Styled`） | `component` feature |
 
 ## GPUI flavor
 

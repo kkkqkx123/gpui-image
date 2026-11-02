@@ -3,7 +3,7 @@
 //! This crate has no GPUI dependency by design: it turns encoded bytes into an
 //! [`ImageBuffer`], transforms it through a consuming builder chain, and
 //! serializes the result back into an [`EncodedImage`]. The GPUI side
-//! (`gpui-image-gpui`) only ever sees the encoded bytes.
+//! (`bridge`) only ever sees the encoded bytes.
 
 use std::{fmt, io::Cursor};
 
@@ -416,7 +416,7 @@ impl ImageBuffer {
     }
 }
 
-/// Encoded image bytes plus their format: the handoff to `gpui-image-gpui`.
+/// Encoded image bytes plus their format: the handoff to `bridge`.
 ///
 /// Besides `ImageBuffer::to_encoded`, SVG documents can bypass the core with
 /// [`EncodedImage::passthrough`]: GPUI renders SVG itself, so the core never

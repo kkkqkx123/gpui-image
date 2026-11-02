@@ -1,12 +1,13 @@
 //! GPUI Image: decoding, processing and display for GPUI applications.
 //!
-//! This facade re-exports the three layers of the workspace:
+//! The facade re-exports the pure core crate and contains the two GPUI-bound
+//! modules directly:
 //!
-//! | Path          | Crate                  | GPUI dependency |
-//! | ------------- | ---------------------- | --------------- |
-//! | [`core`]      | `gpui-image-core`      | none            |
-//! | [`bridge`]    | `gpui-image-gpui`      | exactly one flavor |
-//! | [`component`] | `gpui-image-component` | `component` feature |
+//! | Path          | Contents                 | GPUI dependency    |
+//! | ------------- | ------------------------ | -------------------- |
+//! | [`core`]      | decoding / processing    | none               |
+//! | [`bridge`]    | `ImageSource` + cache    | exactly one flavor |
+//! | [`component`] | `Image` / `ImageFallback`| `component` feature|
 //!
 //! ## GPUI flavors
 //!
@@ -30,8 +31,8 @@
 pub use gpui_image_core as core;
 
 /// GPUI rendering bridge: `ImageSource` construction and caching.
-pub use gpui_image_gpui as bridge;
+pub mod bridge;
 
 /// Generic display components (`Image` / `ImageFallback`).
 #[cfg(feature = "component")]
-pub use gpui_image_component as component;
+pub mod component;

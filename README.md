@@ -10,11 +10,14 @@ display components.
 
 ## Layout
 
-| Crate | Contents | GPUI dependency |
-| ----- | -------- | --------------- |
+Two crates: the pure `gpui-image-core` plus this facade, which owns the two
+GPUI-bound modules directly.
+
+| Path | Contents | GPUI dependency |
+| ---- | -------- | --------------- |
 | `gpui-image-core` | Decoding / encoding + processing primitives (pure logic) | none |
-| `gpui-image-gpui` | `ImageSource` construction (`still_image`), `EncodedImage` conversion, `ImageCache` | exactly one flavor |
-| `gpui-image-component` | Generic `Image` / `ImageFallback` components (`Sizable` / `Styled`) | via `gpui-component` |
+| `gpui_image::bridge` | `ImageSource` construction (`still_image`), `EncodedImage` conversion, `ImageCache` | exactly one flavor |
+| `gpui_image::component` | Generic `Image` / `ImageFallback` components (`Sizable` / `Styled`) | `component` feature |
 
 ## GPUI flavors
 

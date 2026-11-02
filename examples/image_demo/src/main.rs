@@ -4,11 +4,14 @@
 //! without touching the network. The right card has no source and renders
 //! its [`ImageFallback`] placeholder instead.
 
-use gpui_image::bridge::{self, ImageFormat};
+use gpui_image::bridge;
 use gpui_image::component::{Image, ImageFallback};
-use gpui_image::core::{EncodedFormat, Filter, ImageBuffer};
+use gpui_image::core::{EncodedFormat, EncodedImage, Filter, ImageBuffer};
 use gpui_kit::component::{Size, Sizable as _, spinner::Spinner};
-use gpui_kit::{App, Context, IntoElement, Render, Styled as _, Window, WindowOptions, div};
+use gpui_kit::{
+    App, AppContext as _, Context, IntoElement, ParentElement as _, Render, Styled as _, Window,
+    WindowOptions, div,
+};
 
 /// Build a 128x128 diagonal gradient, filter it, and PNG-encode it.
 fn procedural_png() -> Vec<u8> {
@@ -59,7 +62,8 @@ fn main() {
     gpui_kit::application().run(|cx: &mut App| {
         gpui_kit::init(cx);
         let bytes = procedural_png();
-        let source = bridge::image_source(bytes, ImageFormat::Png);
+        let encoded = EncodedImage::passthrough(bytes, EncodedFormat::Png);
+        let source = bridge::image_source(encoded);
         gpui_kit::open_window(WindowOptions::default(), cx, |_, cx| {
             cx.new(|_| Demo { source })
         })

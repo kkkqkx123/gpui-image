@@ -20,22 +20,26 @@ members = ["crates/*", "examples/*"]
 
 [features]
 default = ["gpui-kit", "component"]
-# Image display through GPUI. Select exactly one flavor; `image-gpui` rejects
+# Image display through GPUI. Select exactly one flavor; `bridge` rejects
 # any other combination with a `compile_error!`.
-gpui-kit = ["gpui-image-gpui/gpui-kit", "gpui-image-component?/gpui-kit"]
-gpui-fast = ["gpui-image-gpui/gpui-fast", "gpui-image-component?/gpui-fast"]
+gpui-kit = ["dep:gpui-kit-backend"]
+gpui-fast = ["dep:gpui-fast-backend", "gpui-component?/gpui-fast"]
 # The generic `Image` / `ImageFallback` display components.
-component = ["dep:gpui-image-component"]
+component = ["dep:gpui-component"]
 
 [dependencies]
 gpui-image-core = { path = "crates/image-core", version = "0.1" }
-gpui-image-gpui = { path = "crates/image-gpui", version = "0.1", default-features = false }
-
-[dependencies.gpui-image-component]
-path = "crates/image-component"
-version = "0.1"
-optional = true
-default-features = false
+# Every flavor publishes the same `gpui` API under a different package name.
+# The selected one must be the GPUI the application itself builds against,
+# because the bridge hands GPUI types (`ImageSource`, `ObjectFit`) to it.
+#
+# The pins track the latest published GPUI Kit release (see the design doc);
+# `script/check-gpui-kit-pin.py` fails CI when they drift.
+gpui-kit-backend = { package = "gpui-pre", version = "=0.3.10", default-features = false, optional = true }
+gpui-fast-backend = { package = "gpui-fast", version = "0.1.12", default-features = false, optional = true }
+# Element naming and sizing follow the styled component library. The pin
+# tracks the latest published gpui-component release, like the GPUI pins.
+gpui-component = { version = "=0.8.1", default-features = false, optional = true }
 
 [lints]
 workspace = true

@@ -1,7 +1,7 @@
 //! Generic image display components: [`Image`] and [`ImageFallback`].
 //!
 //! GPUI's `img()` primitive shows one image; `Attachment` and `Avatar` wrap it
-//! for two specific jobs (attachment previews, user avatars). This crate wraps
+//! for two specific jobs (attachment previews, user avatars). This module wraps
 //! it for the general job: show any [`ImageSource`] in a box with a chosen
 //! [`ObjectFit`], an optional aspect ratio, and a fallback slot for the
 //! loading and failure states.
@@ -95,7 +95,7 @@ impl Image {
     }
 
     /// Set the image source: a path, URI, embedded asset, or bridge output
-    /// such as `gpui-image-gpui`'s `still_image`.
+    /// such as `bridge`'s `still_image`.
     pub fn src(mut self, source: impl Into<ImageSource>) -> Self {
         self.source = Some(source.into());
         self

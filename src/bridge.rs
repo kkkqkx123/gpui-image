@@ -1,7 +1,7 @@
 //! GPUI rendering bridge: turn core output into something `img()` can show.
 //!
 //! GPUI has no `ImageSource::Bytes` variant: already-encoded bytes travel as
-//! [`ImageSource::Image`], whose payload (`gpui::platform::Image`) this crate
+//! [`ImageSource::Image`], whose payload (`gpui::platform::Image`) this module
 //! constructs with a process-unique id. Remote locations, files and embedded
 //! assets keep using [`ImageSource::Resource`]; this bridge only covers the
 //! "bytes we decoded or processed ourselves" path, plus an in-memory

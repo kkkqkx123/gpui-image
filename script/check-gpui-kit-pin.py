@@ -2,14 +2,15 @@
 """Verify that this crate pins the same GPUI snapshot the published GPUI Kit
 release pins.
 
-`gpui-image-gpui` and `gpui-image-component` hand GPUI types (`ImageSource`,
+The `bridge` module and the `component` module hand GPUI types (`ImageSource`,
 `ObjectFit`, elements) to the application. When they resolve a different
 `gpui-pre` than the application, the two `App` types do not connect: the call
 site stops compiling, or worse, an action from one snapshot is handed to the
 other.
 
 The check reads the latest published GPUI Kit manifest from crates.io and
-compares its snapshot requirements with the ones in the sub-crate manifests.
+compares its snapshot requirements with the backend pins in this workspace
+root manifest.
 """
 from __future__ import annotations
 
@@ -84,10 +85,7 @@ def pinned_version(text: str) -> str:
 
 def main() -> int:
     manifests = {
-        "gpui-image-gpui": tomllib.loads((ROOT / "crates" / "image-gpui" / "Cargo.toml").read_text()),
-        "gpui-image-component": tomllib.loads(
-            (ROOT / "crates" / "image-component" / "Cargo.toml").read_text()
-        ),
+        "gpui-image": tomllib.loads((ROOT / "Cargo.toml").read_text()),
     }
 
     version = latest_published_version()

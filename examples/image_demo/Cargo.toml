@@ -14,8 +14,14 @@ gpui-image = { path = "../..", default-features = false }
 
 [features]
 default = ["gpui-kit"]
-# GPUI Kit's `gpui-pre` snapshot, the default backend.
-gpui-kit = ["gpui-image/gpui-kit"]
+# GPUI Kit's `gpui-pre` snapshot, the default backend. `component` supplies
+# the `gpui_kit::component` items the demo imports.
+gpui-kit = ["gpui-image/gpui-kit", "gpui-image/component", "gpui-kit/component"]
 # GPUI Fast. It replaces the default backend, so it replaces the flavor
 # feature too: build it with `--no-default-features --features gpui-fast`.
-gpui-fast = ["gpui-image/gpui-fast", "gpui-kit/gpui-fast"]
+gpui-fast = [
+    "gpui-image/gpui-fast",
+    "gpui-image/component",
+    "gpui-kit/gpui-fast",
+    "gpui-kit/component",
+]
