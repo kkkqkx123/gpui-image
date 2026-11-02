@@ -33,9 +33,10 @@ extern crate gpui_fast_backend as gpui;
 
 use gpui::{
     AnyElement, App, Div, ImageSource, InteractiveElement, Interactivity, IntoElement, ObjectFit,
-    ParentElement as _, Pixels, RenderOnce, StyleRefinement, Styled, Window, div, img, px,
+    ParentElement as _, Pixels, RenderOnce, StyleRefinement, Styled, StyledImage as _, Window,
+    div, img, px,
 };
-use gpui_component::{Size, Sizable};
+use gpui_component::{Size, Sizable, StyledExt as _};
 
 /// Default outer-box edge for [`Image`] per [`Size`].
 ///
@@ -44,6 +45,7 @@ use gpui_component::{Size, Sizable};
 /// list thumbnails; full-bleed photos should set their own bounds.
 fn image_box_size(size: Size) -> Pixels {
     match size {
+        Size::Size(edge) => edge,
         Size::XSmall => px(24.),
         Size::Small => px(32.),
         Size::Medium => px(48.),

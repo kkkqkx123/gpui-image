@@ -303,10 +303,16 @@ impl ImageBuffer {
     }
 
     /// Scale to the exact dimensions with the given sampling filter.
+    ///
+    /// The aspect ratio is not preserved; use [`ImageBuffer::thumbnail`] for
+    /// an aspect-preserving fit. (`image`'s own `resize` preserves the ratio,
+    /// so this calls `resize_exact` to honor the contract above.)
     pub fn resize(mut self, width: u32, height: u32, filter: ResizeFilter) -> Self {
         let width = width.max(1);
         let height = height.max(1);
-        self.image = self.image.resize(width, height, filter.image_filter());
+        self.image = self
+            .image
+            .resize_exact(width, height, filter.image_filter());
         self
     }
 
@@ -470,14 +476,15 @@ mod tests {
 
     #[test]
     fn test_decode_rejects_empty_input() {
-        let error = ImageBuffer::decode(&[]).unwrap_err();
-        assert!(matches!(error, Error::EmptyInput));
+        assert!(matches!(ImageBuffer::decode(&[]), Err(Error::EmptyInput)));
     }
 
     #[test]
     fn test_decode_rejects_unknown_bytes() {
-        let error = ImageBuffer::decode(b"definitely not an image").unwrap_err();
-        assert!(matches!(error, Error::Decode(_)));
+        assert!(matches!(
+            ImageBuffer::decode(b"definitely not an image"),
+            Err(Error::Decode(_))
+        ));
     }
 
     #[test]
